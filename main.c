@@ -14,12 +14,12 @@ enum priority{
 
 char getPrioLetter(priority p){
     switch(p){
-        case notSet: return 'N';
         case highest: return 'H';
         case high: return 'h';
         case normal: return 'n';
         case low: return 'l';
         case lowest: return 'L';
+        default: return 'N';
     }
 }
 
