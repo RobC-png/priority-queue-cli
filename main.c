@@ -48,6 +48,8 @@ struct pqueue{
     int count;
 }typedef pqueue;
 
+void printQueue(struct pqueue* pqueue);
+
 //functions
 
 //unitlities
@@ -87,11 +89,10 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
         return;
     }
 
-    priority newEntryPrio = entry.prio;
-
     pqueue->entries[0] = entry;
     pqueue->count++;
-    printf("priority queue now contains %d entry", pqueue->count);
+
+    printf("priority queue now contains %d entry\n", pqueue->count);
 }
 
 void dequeue(struct pqueue* pqueue){
@@ -163,7 +164,7 @@ struct entry getNewEntry(){
     printf("Choose message: ");
     scanf(" %31s", msg); //unfortunately does not work with MSG_LENGTH - 1
 
-    strCopy(newEntry.message, msg, MSG_LENGTH);
+    strCopy(msg, newEntry.message, MSG_LENGTH);
 
     //return the new entry
     return newEntry;
