@@ -23,6 +23,17 @@ char getPrioLetter(priority p){
     }
 }
 
+priority getPrioEnum(char c){
+    switch(c){
+        case 'N': return notSet;
+        case 'H': return highest;
+        case 'h': return high;
+        case 'n': return normal;
+        case 'l': return low;
+        case 'L': return lowest;
+    }
+}
+
 #define MSG_LENGTH 32
 
 struct entry{
@@ -38,6 +49,25 @@ struct pqueue{
 }typedef pqueue;
 
 //functions
+
+//unitlities
+
+//dstLen will always be MAX_ENTRIES for this programm
+void strCopy(char * src, char * dst, int dstLen){
+    for(int i = 0; i < dstLen - 1; i++){
+
+        //if the string is done, end the function, end string with \0
+        if(src[i] == '\0'){
+            dst[i] = '\0';
+            return;
+        }
+
+        //otherwise just copy char by char
+        dst[i] = src[i];
+    }
+    //always end with \0
+    dst[dstLen - 1] = '\0';
+}
 
 //Interactions with pqueue
 int isEmpty(struct pqueue* pqueue){
@@ -80,7 +110,7 @@ void printQueue(struct pqueue* pqueue){
 
 //input
 
-int inputValid(char c){
+int menuInputValid(char c){
     char valid[4] = {'p', 'e', 'd', 'x'};
     for(int i = 0; i < 4; i++){
         if(c == valid[i]) return 1;
@@ -91,32 +121,56 @@ int inputValid(char c){
 char getMenu(){
 
     char input = '\n';
-    printf("Choose action: print queue (p), enqueue entry (e), dequeue entry (d) or exit (x):");
+    printf("Choose action: print queue (p), enqueue entry (e), dequeue entry (d) or exit (x): ");
     scanf(" %c", &input);
 
-    while(!inputValid(input)){
-        printf("Input invalid! Try again:");
+    while(!menuInputValid(input)){
+        printf("Input invalid! Try again: ");
         scanf(" %c", &input);
     }
 
     return input;
 }
 
+int entryPrioValid(char c){
+    char valid[5] = {'L', 'l', 'n', 'h', 'H'};
+    for(int i = 0; i < 5; i++){
+        if(c == valid[i]) return 1;
+    }
+    return 0;
+}
+
 struct entry getNewEntry(){
 
+    //create new entry to return
+    entry newEntry;
+
+    //get prio data
+    char prio = '\n';
+    printf("Choose priority: lowest (L), low (l), normal (n), high (h), highest (H): ");
+    scanf(" %c", &prio);
+
+    while(!entryPrioValid(prio)){
+        printf("Input invalid! Try again: ");
+        scanf(" %c", &prio);
+    }
+
+    newEntry.prio = getPrioEnum(prio);
+
+    //get the message (always correct, no need for validation)
+    char msg[MSG_LENGTH];
+    printf("Choose message: ");
+    scanf(" %31s", msg);
+
+    newEntry.message = msg;
+
+    //return the new entry
+    return newentry;
 };
 
 //main
 
 int main()
 {
-    pqueue pq = {};
-    printQueue(&pq);
-    entry newEntry = {.prio = highest,.message = "ADD ME :)!"};
-    enqueue(&pq, newEntry);
-    printQueue(&pq);
-
-    getMenu();
-    getMenu();
     return 0;
 }
