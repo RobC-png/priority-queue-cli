@@ -80,8 +80,26 @@ void printQueue(struct pqueue* pqueue){
 
 //input
 
+int inputValid(char c){
+    char valid[4] = {'p', 'e', 'd', 'x'};
+    for(int i = 0; i < 4; i++){
+        if(c == valid[i]) return 1;
+    }
+    return 0;
+}
+
 char getMenu(){
 
+    char input = '\n';
+    printf("Choose action: print queue (p), enqueue entry (e), dequeue entry (d) or exit (x):");
+    scanf(" %c", &input);
+
+    while(!inputValid(input)){
+        printf("Input invalid! Try again:");
+        scanf(" %c", &input);
+    }
+
+    return input;
 }
 
 struct entry getNewEntry(){
@@ -97,5 +115,8 @@ int main()
     entry newEntry = {.prio = highest,.message = "ADD ME :)!"};
     enqueue(&pq, newEntry);
     printQueue(&pq);
+
+    getMenu();
+    getMenu();
     return 0;
 }
