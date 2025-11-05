@@ -91,6 +91,7 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
 
     pqueue->entries[0] = entry;
     pqueue->count++;
+    printf("priority queue now contains %d entry", pqueue->count);
 }
 
 void dequeue(struct pqueue* pqueue){
@@ -172,7 +173,7 @@ struct entry getNewEntry(){
 
 int main()
 {
-    char action;
+    char action = '\0';
     pqueue pq = {};
 
     while(action != 'x'){
