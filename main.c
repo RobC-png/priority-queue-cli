@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//structs and enums
+
 enum priority{
     highest = 4,
     high = 3,
@@ -16,8 +18,47 @@ struct entry{
 
 struct pqueue{
     entry entries[10];
-    int isEmtpty;
+    int count;
 }typedef pqueue;
+
+//functions
+
+//Interactions with pqueue
+int isEmpty(struct pqueue* pqueue){
+    if(pqueue->count == 0) return 1;
+    else return 0;
+}
+
+int isFull(struct pqueue* pqueue){
+    if(pqueue->count == 10) return 1;
+    else return 0;
+}
+
+void enqueue(struct pqueue* pqueue, struct entry entry){
+    pqueue->entries[0] = entry;
+}
+
+void dequeue(struct pqueue* pqueue){
+
+}
+
+//output
+
+void printQueue(struct pqueue* pqueue){
+
+}
+
+//input
+
+char getMenu(){
+
+}
+
+struct entry getNewEntry(){
+
+};
+
+//main
 
 int main()
 {
