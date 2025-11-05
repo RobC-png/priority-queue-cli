@@ -160,17 +160,39 @@ struct entry getNewEntry(){
     //get the message (always correct, no need for validation)
     char msg[MSG_LENGTH];
     printf("Choose message: ");
-    scanf(" %31s", msg);
+    scanf(" %31s", msg); //unfortunately does not work with MSG_LENGTH - 1
 
-    newEntry.message = msg;
+    strCopy(newEntry.message, msg, MSG_LENGTH);
 
     //return the new entry
-    return newentry;
+    return newEntry;
 };
 
 //main
 
 int main()
 {
+    char action;
+    pqueue pq = {};
+
+    while(action != 'x'){
+
+        action = getMenu();
+
+        switch(action){
+        case 'p':
+            printQueue(&pq);
+            break;
+        case 'e':
+            enqueue(&pq, getNewEntry());
+            break;
+        case 'd':
+            dequeue(&pq);
+            break;
+        case 'x':
+            break;
+
+        }
+    }
     return 0;
 }
