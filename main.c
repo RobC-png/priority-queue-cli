@@ -4,20 +4,36 @@
 //structs and enums
 
 enum priority{
-    highest = 4,
-    high = 3,
-    normal = 2,
-    low = 1,
-    lowest = 0
+    notSet = 0,
+    highest = 5,
+    high = 4,
+    normal = 3,
+    low = 2,
+    lowest = 1,
 }typedef priority;
+
+char getPrioLetter(priority p){
+    switch(p){
+        case notSet: return 'N';
+        case highest: return 'H';
+        case high: return 'h';
+        case normal: return 'n';
+        case low: return 'l';
+        case lowest: return 'L';
+    }
+}
+
+#define MSG_LENGTH 32
 
 struct entry{
     priority prio;
-    char message[32];
+    char message[MSG_LENGTH];
 }typedef entry;
 
+#define MAX_ENTRIES 10
+
 struct pqueue{
-    entry entries[10];
+    entry entries[MAX_ENTRIES];
     int count;
 }typedef pqueue;
 
@@ -35,7 +51,16 @@ int isFull(struct pqueue* pqueue){
 }
 
 void enqueue(struct pqueue* pqueue, struct entry entry){
+
+    if(isFull(pqueue)){
+        printf("priority queue already full!\n");
+        return;
+    }
+
+    priority newEntryPrio = entry.prio;
+
     pqueue->entries[0] = entry;
+    pqueue->count++;
 }
 
 void dequeue(struct pqueue* pqueue){
@@ -46,6 +71,11 @@ void dequeue(struct pqueue* pqueue){
 
 void printQueue(struct pqueue* pqueue){
 
+    //run for all exiting entries
+    for(int i = 0; i < pqueue->count; i++){
+        entry e = pqueue->entries[i];
+        printf("%c: %s\n", getPrioLetter(e.prio), e.message);
+    }
 }
 
 //input
@@ -62,6 +92,10 @@ struct entry getNewEntry(){
 
 int main()
 {
-    printf("Hello world!\n");
+    pqueue pq = {};
+    printQueue(&pq);
+    entry newEntry = {.prio = highest,.message = "ADD ME :)!"};
+    enqueue(&pq, newEntry);
+    printQueue(&pq);
     return 0;
 }
