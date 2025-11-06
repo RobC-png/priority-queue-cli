@@ -48,6 +48,7 @@ struct pqueue{
     int count;
 }typedef pqueue;
 
+//remove only here for debugging
 void printQueue(struct pqueue* pqueue);
 
 //functions
@@ -82,6 +83,16 @@ int isFull(struct pqueue* pqueue){
     else return 0;
 }
 
+int findSpot(struct pqueue* pqueue, struct entry entry){
+    for(int i = 0; i < MAX_ENTRIES; i++){
+        if(pqueue->entries[i].prio < entry.prio){
+            printf("found a sport at index[%d]\n", i);
+            return i;
+        }
+    }
+    return -1; //should alsways find a spot, but lets make the compiler happy
+}
+
 void enqueue(struct pqueue* pqueue, struct entry entry){
 
     if(isFull(pqueue)){
@@ -89,9 +100,27 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
         return;
     }
 
-    pqueue->entries[0] = entry;
-    pqueue->count++;
+    int insertPoint = findSpot(pqueue, entry);
 
+
+
+    //if entry is the last one
+    printf("shiftcondition: %d > %d | %d\n\n", pqueue->count, insertPoint, (int)(pqueue->count > insertPoint));
+    if(pqueue->count> insertPoint){
+        //shift stuff starting from insertpoint
+        for(int i = pqueue->count - 1; i >= insertPoint ; i--){
+            static int j = 0;
+            printf("shifting from %d to %d\n", i, i + 1);
+            pqueue->entries[i + 1] = pqueue->entries[i];
+            j++;
+            printf("PQ after %d shifts", j);
+            printQueue(pqueue);
+        }
+    }
+
+    //update entry, count and print new count
+    pqueue->entries[insertPoint] = entry;
+    pqueue->count++;
     printf("priority queue now contains %d entry\n", pqueue->count);
 }
 
@@ -106,7 +135,7 @@ void printQueue(struct pqueue* pqueue){
     //run for all exiting entries
     for(int i = 0; i < pqueue->count; i++){
         entry e = pqueue->entries[i];
-        printf("%c: %s\n", getPrioLetter(e.prio), e.message);
+        printf("Index[%d] %c: %s\n", i, getPrioLetter(e.prio), e.message);
     }
 }
 
@@ -193,7 +222,6 @@ int main()
             break;
         case 'x':
             break;
-
         }
     }
     return 0;
