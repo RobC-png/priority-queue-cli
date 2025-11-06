@@ -92,7 +92,7 @@ int findSpot(struct pqueue* pqueue, struct entry entry){
 void enqueue(struct pqueue* pqueue, struct entry entry){
 
     if(isFull(pqueue)){
-        printf("priority queue already full!\n");
+        printf("\npriority queue already full!");
         return;
     }
 
@@ -110,13 +110,13 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
     //update entry, count and print new count
     pqueue->entries[insertIndex] = entry;
     pqueue->count++;
-    printf("priority queue now contains %d entry\n", pqueue->count);
+    printf("\npriority queue now contains %d entry", pqueue->count);
 }
 
 void dequeue(struct pqueue* pqueue){
 
     if(pqueue->count == 0){
-        printf("priority queue is empty!\n");
+        printf("\npriority queue is empty!");
         return;
     }
 
@@ -125,7 +125,7 @@ void dequeue(struct pqueue* pqueue){
     }
 
     pqueue->count--;
-    printf("priority queue now contains %d entries\n", pqueue->count);
+    printf("\npriority queue now contains %d entries", pqueue->count);
 }
 
 //output
@@ -135,7 +135,7 @@ void printQueue(struct pqueue* pqueue){
     //run for all exiting entries
     for(int i = 0; i < pqueue->count; i++){
         entry e = pqueue->entries[i];
-        printf("Index[%d] %c: %s\n", i, getPrioLetter(e.prio), e.message);
+        printf("\n%c: %s", getPrioLetter(e.prio), e.message);
     }
 }
 
@@ -152,11 +152,11 @@ int menuInputValid(char c){
 char getMenu(){
 
     char input = '\n';
-    printf("Choose action: print queue (p), enqueue entry (e), dequeue entry (d) or exit (x): ");
+    printf("\nChoose action: print queue (p), enqueue entry (e), dequeue entry (d) or exit (x): ");
     scanf(" %c", &input);
 
     while(!menuInputValid(input)){
-        printf("Input invalid! Try again: ");
+        printf("\nInput invalid! Try again: ");
         scanf(" %c", &input);
     }
 
@@ -178,11 +178,11 @@ struct entry getNewEntry(){
 
     //get prio data
     char prio = '\n';
-    printf("Choose priority: lowest (L), low (l), normal (n), high (h), highest (H): ");
+    printf("\nChoose priority: lowest (L), low (l), normal (n), high (h), highest (H): ");
     scanf(" %c", &prio);
 
     while(!entryPrioValid(prio)){
-        printf("Input invalid! Try again: ");
+        printf("\nInput invalid! Try again: ");
         scanf(" %c", &prio);
     }
 
@@ -190,7 +190,7 @@ struct entry getNewEntry(){
 
     //get the message (always correct, no need for validation)
     char msg[MSG_LENGTH];
-    printf("Choose message: ");
+    printf("\nChoose message: ");
     scanf(" %31s", msg); //unfortunately does not work with MSG_LENGTH - 1
 
     strCopy(msg, newEntry.message, MSG_LENGTH);
@@ -203,11 +203,10 @@ struct entry getNewEntry(){
 
 int main()
 {
-    char action = '\0';
     pqueue pq = {};
+    char action;
 
-    while(action != 'x'){
-
+    do{
         action = getMenu();
 
         switch(action){
@@ -223,6 +222,8 @@ int main()
         case 'x':
             break;
         }
-    }
+
+    } while(action != 'x');
+
     return 0;
 }
