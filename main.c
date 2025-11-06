@@ -100,26 +100,19 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
         return;
     }
 
-    int insertPoint = findSpot(pqueue, entry);
+    int insertIndex = findSpot(pqueue, entry);
 
-
-
-    //if entry is the last one
-    printf("shiftcondition: %d > %d | %d\n\n", pqueue->count, insertPoint, (int)(pqueue->count > insertPoint));
-    if(pqueue->count> insertPoint){
+    //if the insertPoint is an existing index
+    if(insertIndex <= pqueue->count - 1){
         //shift stuff starting from insertpoint
-        for(int i = pqueue->count - 1; i >= insertPoint ; i--){
-            static int j = 0;
-            printf("shifting from %d to %d\n", i, i + 1);
+        //starts at the last filled index, goes down to the index that needs to be freed
+        for(int i = pqueue->count - 1; i >= insertIndex ; i--){
             pqueue->entries[i + 1] = pqueue->entries[i];
-            j++;
-            printf("PQ after %d shifts", j);
-            printQueue(pqueue);
         }
     }
 
     //update entry, count and print new count
-    pqueue->entries[insertPoint] = entry;
+    pqueue->entries[insertIndex] = entry;
     pqueue->count++;
     printf("priority queue now contains %d entry\n", pqueue->count);
 }
