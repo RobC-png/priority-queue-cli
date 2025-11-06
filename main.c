@@ -89,6 +89,11 @@ int findSpot(struct pqueue* pqueue, struct entry entry){
     return -1; //should alsways find a spot, but lets make the compiler happy
 }
 
+void printEntryAmmount(pqueue * pqueue){
+    char * word = (pqueue->count == 1) ? "entry" : "entries";
+    printf("\npriority queue now contains %d %s", pqueue->count, word);
+}
+
 void enqueue(struct pqueue* pqueue, struct entry entry){
 
     if(isFull(pqueue)){
@@ -110,7 +115,7 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
     //update entry, count and print new count
     pqueue->entries[insertIndex] = entry;
     pqueue->count++;
-    printf("\npriority queue now contains %d entry", pqueue->count);
+    printEntryAmmount(pqueue);
 }
 
 void dequeue(struct pqueue* pqueue){
@@ -120,17 +125,24 @@ void dequeue(struct pqueue* pqueue){
         return;
     }
 
+    printf("\n Message: %s", pqueue->entries[0].message);
+
     for(int i = 0; i < pqueue->count - 1; i++){
         pqueue->entries[i] = pqueue->entries[i + 1];
     }
 
     pqueue->count--;
-    printf("\npriority queue now contains %d entries", pqueue->count);
+    printEntryAmmount(pqueue);
 }
 
 //output
 
 void printQueue(struct pqueue* pqueue){
+
+    if(isEmpty(pqueue)){
+        printf("\n empty queue");
+        return;
+    }
 
     //run for all exiting entries
     for(int i = 0; i < pqueue->count; i++){
