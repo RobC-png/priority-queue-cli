@@ -76,7 +76,7 @@ int isEmpty(struct pqueue* pqueue){
 }
 
 int isFull(struct pqueue* pqueue){
-    if(pqueue->count == 10) return 1;
+    if(pqueue->count == MAX_ENTRIES) return 1;
     else return 0;
 }
 
@@ -125,7 +125,7 @@ void dequeue(struct pqueue* pqueue){
         return;
     }
 
-    printf("\n Message: %s", pqueue->entries[0].message);
+    printf("\nMessage: %s", pqueue->entries[0].message);
 
     for(int i = 0; i < pqueue->count - 1; i++){
         pqueue->entries[i] = pqueue->entries[i + 1];
@@ -140,7 +140,7 @@ void dequeue(struct pqueue* pqueue){
 void printQueue(struct pqueue* pqueue){
 
     if(isEmpty(pqueue)){
-        printf("\n empty queue");
+        printf("\nempty queue");
         return;
     }
 
