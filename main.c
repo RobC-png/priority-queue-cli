@@ -34,6 +34,7 @@ priority getPrioEnum(char c){
     }
 }
 
+//can just change this, but careful with line 211
 #define MSG_LENGTH 32
 
 struct entry{
@@ -80,6 +81,9 @@ int isFull(struct pqueue* pqueue){
     else return 0;
 }
 
+//only runs once there is guaranteed to be a new spot for the entry
+//checks if the entry at [i] is less important than itself
+//enters entry at that position
 int findSpot(struct pqueue* pqueue, struct entry entry){
     for(int i = 0; i < MAX_ENTRIES; i++){
         if(pqueue->entries[i].prio < entry.prio){
@@ -127,6 +131,7 @@ void dequeue(struct pqueue* pqueue){
 
     printf("\nMessage: %s", pqueue->entries[0].message);
 
+    //shift array forward, also deletes pqueue->entries[0]
     for(int i = 0; i < pqueue->count - 1; i++){
         pqueue->entries[i] = pqueue->entries[i + 1];
     }
@@ -203,18 +208,18 @@ struct entry getNewEntry(){
     //get the message (always correct, no need for validation)
     char msg[MSG_LENGTH];
     printf("\nChoose message: ");
-    scanf(" %31s", msg); //unfortunately does not work with MSG_LENGTH - 1
+    scanf(" %31s", msg); //unfortunately does not work with %(MSG_LENGTH - 1)
 
+    //strCopy because newEntry.message = msg; does not work
     strCopy(msg, newEntry.message, MSG_LENGTH);
 
-    //return the new entry
     return newEntry;
 };
 
 //main
 
-int main()
-{
+int main(){
+    //always innit the pq to 0, otherwise findSpot breaks
     pqueue pq = {};
     char action;
 
