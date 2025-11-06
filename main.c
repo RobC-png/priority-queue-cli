@@ -25,12 +25,12 @@ char getPrioLetter(priority p){
 
 priority getPrioEnum(char c){
     switch(c){
-        case 'N': return notSet;
         case 'H': return highest;
         case 'h': return high;
         case 'n': return normal;
         case 'l': return low;
         case 'L': return lowest;
+        default: return notSet;
     }
 }
 
@@ -47,9 +47,6 @@ struct pqueue{
     entry entries[MAX_ENTRIES];
     int count;
 }typedef pqueue;
-
-//remove only here for debugging
-void printQueue(struct pqueue* pqueue);
 
 //functions
 
@@ -86,7 +83,6 @@ int isFull(struct pqueue* pqueue){
 int findSpot(struct pqueue* pqueue, struct entry entry){
     for(int i = 0; i < MAX_ENTRIES; i++){
         if(pqueue->entries[i].prio < entry.prio){
-            printf("found a sport at index[%d]\n", i);
             return i;
         }
     }
@@ -119,6 +115,17 @@ void enqueue(struct pqueue* pqueue, struct entry entry){
 
 void dequeue(struct pqueue* pqueue){
 
+    if(pqueue->count == 0){
+        printf("priority queue is empty!\n");
+        return;
+    }
+
+    for(int i = 0; i < pqueue->count - 1; i++){
+        pqueue->entries[i] = pqueue->entries[i + 1];
+    }
+
+    pqueue->count--;
+    printf("priority queue now contains %d entries\n", pqueue->count);
 }
 
 //output
